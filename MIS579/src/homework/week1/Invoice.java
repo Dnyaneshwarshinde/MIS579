@@ -2,7 +2,7 @@ package homework.week1;
 
 /*
  * Matt Wolff
- * MIS579 iLab / Week 1 / Problem 1
+ * MIS579 iLab / Week 1 / Problem 2a
  * Requirements:
  * Create a class called Invoice that a hardware store might use to represent an invoice 
  * for an item sold at the store. An invoice should include four pieces of information as 
