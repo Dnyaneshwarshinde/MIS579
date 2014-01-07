@@ -23,11 +23,26 @@ public class Invoice {
 	private int quantity;
 	private double pricePerItem;
 	
+	public Invoice() {
+		partNumber = "";
+		partDescription ="";
+		quantity = 0;
+		pricePerItem = 0.0;
+	}
+	
 	public Invoice(String partNumber, String partDescription, int quantity, double pricePerItem) {
-		this.partNumber = partNumber;
-		this.partDescription = partDescription;
-		this.quantity = quantity;
-		this.pricePerItem = pricePerItem;
+		
+		// I don't normally use Bean style setter methods from the constructor, but in this case
+		// I wanted to only implement the logic making sure that quantity and pricePerItem are positive
+		// in one place (their setter methods)
+		setPartNumber(partNumber);
+		setPartDescription(partDescription);
+		setQuantity(quantity);
+		setPricePerItem(pricePerItem);
+	}
+	
+	public double getInvoiceAmount(){
+		return quantity * pricePerItem;
 	}
 
 	public String getPartNumber() {
@@ -51,7 +66,12 @@ public class Invoice {
 	}
 
 	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+		//If the quantity is not positive, it should be set to zero
+		if (quantity > 0) {
+			this.quantity = quantity;
+		} else {
+			this.quantity = 0;
+		}
 	}
 
 	public double getPricePerItem() {
@@ -59,10 +79,19 @@ public class Invoice {
 	}
 
 	public void setPricePerItem(double pricePerItem) {
-		this.pricePerItem = pricePerItem;
+		if (pricePerItem > 0) {
+			this.pricePerItem = pricePerItem;
+		} else {
+			this.pricePerItem = 0.0;
+		}
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Invoice [partNumber=" + partNumber + ", partDescription="
+				+ partDescription + ", quantity=" + quantity
+				+ ", pricePerItem=" + pricePerItem + "]";
+	}
 	
 	
 }
