@@ -1,12 +1,3 @@
-/* Copyright 2014 Caterpillar Inc. All rights reserved. 
- * The work contains Caterpillar’s proprietary information, 
- * which may constitute a trade secret and/or be confidential. 
- * Copyright notice is precautionary only and does not imply publication.
- * 
- *  
- * Create By : wolffml
- * Create On : Jan 7, 2014
- */
 package homework.week1;
 
 import java.util.Scanner;
@@ -30,6 +21,7 @@ import java.util.Scanner;
  */
 
 public class Credit {
+	//Instance variables
 	private int accountNumber;
 	private int beginningBalance;
 	private int totalCharges;
@@ -38,7 +30,7 @@ public class Credit {
 	private int currentBalance;
 	
 	
-
+	// This constructor accepts all instance variables with the exception of currentBalance which is calculated.
 	public Credit(int accountNumber, int beginningBalance, int totalCharges, int totalCredits, int allowedCreditLimit) {
 		this.accountNumber = accountNumber;
 		this.beginningBalance = beginningBalance;
@@ -48,6 +40,7 @@ public class Credit {
 		updateCurrentBalance();
 	}
 	
+	//Default constructor so that the setter methods may also be used
 	public Credit(){
 		
 	}
@@ -94,65 +87,67 @@ public class Credit {
 
 	}
 
+	//Standard Getter Method
 	public int getAccountNumber() {
 		return accountNumber;
 	}
-
+	//Standard Setter Method
 	public void setAccountNumber(int accountNumber) {
 		this.accountNumber = accountNumber;
 	}
-
+	//Standard Getter Method
 	public int getBeginningBalance() {
 		return beginningBalance;
 	}
-
+	//Standard Setter Method that also updates the current balance
 	public void setBeginningBalance(int beginningBalance) {
 		this.beginningBalance = beginningBalance;
 		updateCurrentBalance();  //need to update the current balance when this value changes
 	}
 
-	
+	//Standard Getter Method
 	public int getAllowedCreditLimit() {
 		return allowedCreditLimit;
 	}
-
+	//Standard Setter Method
 	public void setAllowedCreditLimit(int allowedCreditLimit) {
 		this.allowedCreditLimit = allowedCreditLimit;
 	}
 
 	
-	
+	//This method calculates the Current Balance and stores the result in the currentBalance instance variable
 	public void updateCurrentBalance() {
 		//= beginning balance + charges - credits)
 		currentBalance = beginningBalance + totalCharges - totalCredits;
 	}
-
+	//Standard Getter Method
 	public int getCurrentBalance() {
 		return currentBalance;
 	}
-
+	//Standard Setter Method
 	private void setCurrentBalance(int currentBalance) {
 		this.currentBalance = currentBalance;
 	}
-
+	//Standard Getter Method
 	public int getTotalCharges() {
 		return totalCharges;
 	}
-
+	//Standard Setter Method that also updates the current balance
 	public void setTotalCharges(int totalCharges) {
 		this.totalCharges = totalCharges;
 		updateCurrentBalance();  //need to update the current balance when this value changes
 	}
-
+	//Standard Getter Method
 	public int getTotalCredits() {
 		return totalCredits;
 	}
-
+	//Standard Setter Method that also updates the current balance
 	public void setTotalCredits(int totalCredits) {
 		this.totalCredits = totalCredits;
 		updateCurrentBalance();  //need to update the current balance when this value changes
 	}
 
+	//Just a toString() to help me with printing out tests
 	@Override
 	public String toString() {
 		return "Credit [accountNumber=" + accountNumber + ", beginningBalance="
@@ -161,6 +156,8 @@ public class Credit {
 				+ allowedCreditLimit
 				+ "]";
 	}
+	
+	//Print method that shows the relevant instance values and whether or not the Credit Limit has been exceeded
 	public void showCreditMessage() {
 		System.out.println(this);
 		System.out.println("Account Balance: " + currentBalance);

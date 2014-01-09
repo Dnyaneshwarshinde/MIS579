@@ -23,6 +23,7 @@ public class Invoice {
 	private int quantity;
 	private double pricePerItem;
 	
+	//Generic constructor provided so that setters can be used to set variable values
 	public Invoice() {
 		partNumber = "";
 		partDescription ="";
@@ -30,6 +31,7 @@ public class Invoice {
 		pricePerItem = 0.0;
 	}
 	
+	//Constructor using several all of the class variables
 	public Invoice(String partNumber, String partDescription, int quantity, double pricePerItem) {
 		
 		// I don't normally use Bean style setter methods from the constructor, but in this case
@@ -41,30 +43,34 @@ public class Invoice {
 		setPricePerItem(pricePerItem);
 	}
 	
+	//This get method provides the Invoice Amount, which is calculated (not an instance variable)
 	public double getInvoiceAmount(){
 		return quantity * pricePerItem;
 	}
 
+	//Generic getter method
 	public String getPartNumber() {
 		return partNumber;
 	}
-
+	//Generic setter method
 	public void setPartNumber(String partNumber) {
 		this.partNumber = partNumber;
 	}
-
+	//Generic getter method
 	public String getPartDescription() {
 		return partDescription;
 	}
 
+	//Generic setter method
 	public void setPartDescription(String partDescription) {
 		this.partDescription = partDescription;
 	}
-
+	//Generic getter method
 	public int getQuantity() {
 		return quantity;
 	}
-
+	
+	//Setter method makes sure that quantity is a positive number
 	public void setQuantity(int quantity) {
 		//If the quantity is not positive, it should be set to zero
 		if (quantity > 0) {
@@ -73,11 +79,12 @@ public class Invoice {
 			this.quantity = 0;
 		}
 	}
-
+	//Generic getter method
 	public double getPricePerItem() {
 		return pricePerItem;
 	}
-
+	
+	//Setter method makes sure that price per item is a positive number
 	public void setPricePerItem(double pricePerItem) {
 		if (pricePerItem > 0) {
 			this.pricePerItem = pricePerItem;
@@ -86,6 +93,7 @@ public class Invoice {
 		}
 	}
 
+	//Just a toString() to help me with printing out tests
 	@Override
 	public String toString() {
 		return "Invoice [partNumber=" + partNumber + ", partDescription="

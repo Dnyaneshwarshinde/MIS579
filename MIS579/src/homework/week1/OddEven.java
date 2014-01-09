@@ -19,6 +19,7 @@ public class OddEven {
 		System.out.print("Please enter an integer: ");
 		int1 = input.nextInt(); //This will read the next integer and assign it to int1
 		
+		//Should close the input stream after keyboard data has been read
 		input.close();
 		
 		if ( int1 % 2 == 0 ){  //Modulus operator finds the remainder
