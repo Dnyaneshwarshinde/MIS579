@@ -17,6 +17,7 @@ package homework.week2;
 public class Garage {
 	
 	private static final double MINIMUM_FEE = 2.0;
+	private static final int MINIMUM_HOURS = 3;
 	private static final double MAXIMUM_FEE = 10.0;
 	private static final double HOURLY_RATE = 0.5;
 	
@@ -35,11 +36,14 @@ public class Garage {
 	}
 	
 	public double calculateCharges(){
-		double retCalc = hoursParked * HOURLY_RATE;
-		if (retCalc > MAXIMUM_FEE) {
-			retCalc = MAXIMUM_FEE;
-		} else if (retCalc < MINIMUM_FEE) {
+		double retCalc = 0.0;
+		if (hoursParked <= MINIMUM_HOURS) {
 			retCalc = MINIMUM_FEE;
+		} else { 
+			retCalc = MINIMUM_FEE + (hoursParked - MINIMUM_HOURS) * HOURLY_RATE;
+			if (retCalc > MAXIMUM_FEE) {
+				retCalc = MAXIMUM_FEE;
+			}
 		}
 		return retCalc;
 	}
