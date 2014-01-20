@@ -15,49 +15,35 @@ package homework.week2;
  */
 
 public class GarageTest {
-
-	private static double runningTotal = 0.0;
 	
 	public static void main(String[] args) {
 		
 		//Testing that the hourly rates come out correctly
 		System.out.println("Test Data");
-		Garage g1 = new Garage(1);
-		printOut(g1);
+		Garage gTest = new Garage("Test Garage");
 		for (int i = 1; i < 25; i++){
-			Garage g = new Garage(i);
-			printOut(g);
+			gTest.addParker(i);
 		}
+		gTest.printOut();
 		
 		
 		//Now simulate a days worth of customers parking in the garage
 		System.out.println("Customer Data");
+		//This array is just a bunch of different parker times in the garage to add to the Garage instance
 		int[] custHours = { 5, 12, 23, 4, 9, 1, 9, 10, 18, 10, 17, 8, 5, 13, 1, 4, 6, 4, 12};
 		
-		double totalCharge = 0.0;
-		for (int i = 0; i < custHours.length; i++) {
-			Garage g = new Garage(custHours[i]);
-			printOut(g, i);
-			totalCharge += g.calculateCharges();
+		//This is the instance of Garage into which will put the parker data
+		Garage gCustomer = new Garage("Customer 1 Garage");
+		//Loop through the array of Customer Hours parked
+		for (int i : custHours){
+			//Add another parker to the garage
+			gCustomer.addParker(i);
 		}
-		System.out.printf("Total Charge for day $%.2f", totalCharge);
-		
-			
-		
-			
+		//Now give a nice print out of each parker's cost for the day and the total
+		gCustomer.printOut();
 
 	}
 	
-	public static void printOut(Garage g) {
-		double dblOut = g.calculateCharges();
-		runningTotal += dblOut;
-		System.out.printf("Hours: %s \t Charge: $%.2f \n",g.getHoursParked(), dblOut);
-	}
-	public static void printOut(Garage g, int customerNumber) {
-		double dblOut = g.calculateCharges();
-		runningTotal += dblOut;
-		System.out.printf("(%s) \t Hours: %s \t Charge: $%.2f \n", customerNumber, g.getHoursParked(), dblOut);
-	}
 
 }
 

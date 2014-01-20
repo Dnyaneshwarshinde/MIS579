@@ -1,5 +1,7 @@
 package homework.week2;
 
+import java.util.ArrayList;
+
 
 /*
  * Matt Wolff
@@ -16,39 +18,117 @@ package homework.week2;
  */
 public class Garage {
 	
+	//Minimum charge
 	private static final double MINIMUM_FEE = 2.0;
+	//Minimum hours
 	private static final int MINIMUM_HOURS = 3;
+	//Maximum fee for parking
 	private static final double MAXIMUM_FEE = 10.0;
+	//Hourly rate for parking after minimum hours
 	private static final double HOURLY_RATE = 0.5;
 	
-	private int hoursParked;
+	//This array list will hold instances of Parkers.  In my object model, a Garage is a collection of parkers
+	private ArrayList<Parker> parkers= new  ArrayList<Parker>();
+	//Just a name to keep the garages apart.  You could also just make this a date so that each instance is the same garage for a different day.
 	
-	public Garage(int hoursParked) {
-		this.hoursParked = hoursParked;
+	private String garageName = "";
+	
+	public Garage(String garageName) {
+		this.garageName = garageName;
 	}
 	
-	public double getHoursParked() {
-		return hoursParked;
+	public String getGarageName() {
+		return garageName;
 	}
 
-	public void setHoursParked(int hoursParked) {
-		this.hoursParked = hoursParked;
+
+	public void setGarageName(String garageName) {
+		this.garageName = garageName;
+	}
+
+
+	public ArrayList<Parker> getParkers() {
+		return parkers;
+	}
+
+	public void setParkers(ArrayList<Parker> parkers) {
+		this.parkers = parkers;
 	}
 	
-	public double calculateCharges(){
-		double retCalc = 0.0;
-		if (hoursParked <= MINIMUM_HOURS) {
-			retCalc = MINIMUM_FEE;
-		} else { 
-			retCalc = MINIMUM_FEE + (hoursParked - MINIMUM_HOURS) * HOURLY_RATE;
-			if (retCalc > MAXIMUM_FEE) {
-				retCalc = MAXIMUM_FEE;
-			}
+	public void addParker(int hours){
+		//Just some error checking before adding the data to make sure it complies with the expectations
+		//Hours should be greater than 0 and less than or equal to 24
+		//In real programming, I would create a custom exception and throw it here.  In this case, I'll just correct it.
+		if (hours < 0) {
+			hours = 0;
+		} else if (hours > 24) {
+			hours = 24;
 		}
-		return retCalc;
+		this.parkers.add(new Parker(hours));
+	}
+
+	//You don't really need this method since the Parker object itself has a calculateCharges method, but this a convenience method.
+	public static double calculateCharges(Parker parker){
+		return parker.calculateCharges();
 	}
 	
+	//This method will print the Garage Name, each parker (hours and charge) and a grand total for all parkers
+	public void printOut() {
+		System.out.println("*****************************\n Garage Printout for: " + garageName);
+		//Holder for calculating the total charges for all Parkers in the Garage
+		double totalCharges = 0.0;
+		//Loop through the parkers ArrayList
+		for (Parker parker: parkers){
+			//Print the hours and the charge
+			System.out.printf("Hours: %s \t Charge: $%.2f \n", parker.getHours(), parker.calculateCharges());
+			//Add the current parker charge to the running total
+			totalCharges += parker.calculateCharges();
+		}
+		//Print he total charges
+		System.out.printf("Total Charge for day $%.2f \n", totalCharges);
+		
+	}
 	
+	/* In needed to create an inner class in this case in order to keep the object model making sense.
+	 * In this case, each parker just has an integer for the number of hours parked and the class has the logic for
+	 * calulating the total charges
+	 */
+	public class Parker{
+		private int hours;
+		public Parker (){
+			super();
+		}
+		
+		public Parker(int hours) {
+			super();
+			this.hours = hours;
+		}
+
+		public int getHours() {
+			return hours;
+		}
+
+		public void setHours(int hours) {
+			this.hours = hours;
+		}
+	
+		public double calculateCharges(){
+			//The value that will be returned by the method
+			double retCalc = 0.0;
+			//If we haven't parked for at least the minimum hours, then you simply charge them the minimum charge
+			if (hours <= MINIMUM_HOURS) {
+				retCalc = MINIMUM_FEE;
+			} else { 
+				//If the parker was there for more than the minimum, charge the miminum fee for first 3 hours and then the hourly rate thereafter
+				retCalc = MINIMUM_FEE + (hours - MINIMUM_HOURS) * HOURLY_RATE;
+				//If the charges are greater than the maximum_fee for 24 hours, then just charge the maximum fee.
+				if (retCalc > MAXIMUM_FEE) {
+					retCalc = MAXIMUM_FEE;
+				}
+			}
+			return retCalc;
+		}
+	}
 
 }
 
