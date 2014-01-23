@@ -1,6 +1,10 @@
 package homework.week3;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
+import java.lang.annotation.*;
+import java.lang.reflect.Method;
+
 
 /*
 * Matt Wolff
@@ -19,85 +23,127 @@ import java.util.Scanner;
 
 public class TestDriver {
 	
-	public static MenuOption[] MENU_OPTIONS = { 
-		new MenuOption("Rectangle",'R',"test"),
-		new MenuOption("Square", 'S', "test2"),
-		new MenuOption("Help", 'H', "help"),
-		new MenuOption("Exit", 'E', "exit")
-	};
+	private final static Logger LOGGER = Logger.getLogger(TestDriver.class.getName());
 	
 	
 	public static void main(String[] args){
-		
+		//Some tests
 		Rectangle r = new Rectangle(2,4);
 		Square s = new Square(6);
 		
 		System.out.println(r);
 		System.out.println(s);
 		
+		
+		//Now for the main loop for interaction with the user
 		boolean blnContinue = true;
+		helpChoice();
 		//Do this loop 2 - 7 until the user asks to quit
+		
 		do {
+			char charChoice = getValidatedInput().charAt(0);
+			Method runMethod = getMethod(charChoice);
 			
+			try {
+				//Call the method returned by the menu system.  The return will be a boolean
+				//that indicates if the user wants to quit and thereby exits the control loop
+				blnContinue = (Boolean) runMethod.invoke(null, null);
+			} catch (Exception e) {
+				e.printStackTrace();
+				blnContinue = false;
+				System.out.println("An unexpected error has occured.  Exiting program.");
+			} 
 		} while (blnContinue);
+		
+		
 	}
 	
+	private static Method getMethod(char charChoice) {
+		Method returnMethod = null;
+		Method[] methods = TestDriver.class.getDeclaredMethods();
+		for (Method method: methods){
+			if (method.isAnnotationPresent(Command.class)){
+				if (method.getAnnotation(Command.class).symbol() == charChoice){
+					returnMethod = method;
+					break;
+				}
+			}
+		}
+		return returnMethod;
+	}
+
+	//This method just executes a loop until a valid menu option has been selected.  The validated menu option
+	//is returned as a string.
 	public static String getValidatedInput(){
 		Scanner sc = new Scanner(System.in);
+		System.out.printf("Enter Selection: ");
 		while (!sc.hasNext(getRegEx())) {
-		        System.out.println("Invalid Choice please choose any of the following");
-		        sc.next();
+	        System.out.printf("Invalid Choice. Enter Selection: ");
+	        //Maybe show help?
+		    sc.next();
 		}
-		return "";
+		return sc.next().toUpperCase();
 	}
 	
+	//This method will generate a string of valid menu choices in the format for a regular expression
 	public static String getRegEx(){
-		String strReturn = "";
 		String characters = "";
-		for (MenuOption menu: MENU_OPTIONS){
-			characters += menu.getSymbol();
+		Method[] methods = TestDriver.class.getDeclaredMethods();
+		for (Method method: methods){
+			//LOGGER.fine(method.getName());
+			if (method.isAnnotationPresent(Command.class)){
+				//LOGGER.info("Annotated: " + method.getName());
+				characters += method.getAnnotation(Command.class).symbol();
+			}
 		}
-		strReturn = "[" + characters.toUpperCase() + characters.toLowerCase() + "]";
+		//Create the regular expression string
+		String strReturn = "[" + characters.toUpperCase() + characters.toLowerCase() + "]";
 		return strReturn;
 	}
 	
-	private String getAvailableMenuCommands(){
+	@Command(name="(R)ectangle - Select a Rectangle",symbol='R')
+	private static boolean rectangleChoice(){
+		System.out.println("Make a Rectangle choice.");
+		return true;
+	}
+	
+	@Command(name="(S)quare - Select a Square",symbol='S')
+	private static boolean squareChoice(){
+		System.out.println("Make a Square choice.");
+		
+		return true;
+	}
+	
+	@Command(name="(E)xit the program", symbol='E')
+	private static boolean exitChoice(){
+		System.out.println("Exiting now.");
+		return false;
+	}
+	@Command(name="(H)elp - This Message", symbol='H')
+	private static boolean helpChoice(){
+		System.out.println("Help Information.  Select any one of the following commands:");
+		System.out.println(getAvailableMenuCommands());
+		return true;
+	}
+	
+	private static String getAvailableMenuCommands(){
 		String strReturn = "";
-		for (MenuOption menu: MENU_OPTIONS){
-			strReturn += "(" + ")" + menu.getSymbol() + " " + menu.getName() + "\n"; 
+		Method[] methods = TestDriver.class.getDeclaredMethods();
+		for (Method method: methods){
+			//LOGGER.fine(method.getName());
+			if (method.isAnnotationPresent(Command.class)){
+				//LOGGER.info("Annotated: " + method.getName());
+				strReturn += method.getAnnotation(Command.class).name() + "\n"; 
+			}
 		}
 		return strReturn;
 	}
 	
-	private static class MenuOption{
-		
-		private String name;
-		private char symbol;
-		private String action;
-		public MenuOption(String name, char symbol, String action) {
-			this.name = name;
-			this.symbol = symbol;
-			this.action = action;
-		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public char getSymbol() {
-			return symbol;
-		}
-		public void setSymbol(char symbol) {
-			this.symbol = symbol;
-		}
-		public String getAction() {
-			return action;
-		}
-		public void setAction(String action) {
-			this.action = action;
-		}
-		
+	@Target(ElementType.METHOD)
+	@Retention(RetentionPolicy.RUNTIME)
+	public @interface Command {
+		String name() default "";
+		char symbol();
 	}
 	
 }
