@@ -27,20 +27,20 @@ public class TestDriver {
 	
 	private static Rectangle rectangle;
 	private static Square square;
-	private static Rectangle sAsR;
+	private static Rectangle RAsS;
 	
 	public static void main(String[] args){
 		//Some tests
-		/*
+		
 		rectangle = new Rectangle(2,4);
 		square = new Square(6);
 		
 		System.out.println(rectangle);
 		System.out.println(square);
 		
-		sAsR = new Square(6);
-		System.out.println(sAsR);
-		*/
+		RAsS = new Square(6);
+		System.out.println(RAsS);
+		
 		
 		//Now for the main loop for interaction with the user
 		boolean blnContinue = true;
@@ -155,10 +155,10 @@ public class TestDriver {
 		}
 	    int length = sc.nextInt();
 	    //Create the square object per the requested dimension
-		square = new Square (length);
+		rectangle = new Square (length);
 		System.out.println("Information about the Square you've created: ");
 		//Print out releveant square info
-	    System.out.println(square);
+	    System.out.println(rectangle);
 		return true;
 	}
 	
