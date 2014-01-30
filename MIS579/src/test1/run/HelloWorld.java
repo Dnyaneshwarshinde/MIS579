@@ -8,10 +8,17 @@
  * Create On : Dec 20, 2013
  */
 package test1.run;
-public class HelloWorld {
 
+import java.io.Serializable;
+
+public class HelloWorld implements Serializable {
+
+	private static Object comp;
+	
 	public static void main(String[] args) {
 		System.out.println("Hello World");
+		
+		//comp = new Comparable();
 
 	}
 
