@@ -44,6 +44,13 @@ public class Saver1 {
 		
 		frame.setSize (width, height);
 		//frame.setVisible(true);
+		/*
+		//Testing to verify the getRandomBetweenMethod is inclusive of the min and max
+		for(int i=0; i<100; i++){
+			int rndInt = Saver1Panel.getRandomBetween(-10, 10);
+			logger.log(Level.INFO, "{0}: Number is [{1}]", new Object[] {i, rndInt});
+		}
+		*/
 	}
 }
 
