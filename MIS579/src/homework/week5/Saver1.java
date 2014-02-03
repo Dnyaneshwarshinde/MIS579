@@ -1,0 +1,49 @@
+package homework.week5;
+
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+import javax.swing.JFrame;
+
+/*
+ * Matt Wolff
+ * MIS579 iLab / Week 5 / Problem 1
+ * Requirements:
+ * Design, code, and test an application that simulates a screensaver. The application should randomly draw lines 
+ * using method drawLine of class Graphics. After drawing 100 lines, the application should clear the screen and 
+ * start drawing lines again. To allow the program to draw continuously, place a call to repaint as the last line in 
+ * method paintComponent. There could be problems getting this application to function perfectly on any particular 
+ * computer system. That would be a good topic for the discussion threads; how well the screen saver works on your 
+ * computer.
+ */
+
+public class Saver1 {
+	
+	private static final Logger logger = Logger.getLogger(Saver1.class.getName());
+
+	public static void main (String[] args){
+		logger.setLevel(Level.INFO);
+		
+		Saver1Panel panel = new Saver1Panel();
+		JFrame frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(panel);
+		
+		//Get Screen dimensions for current screen
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = gd.getDisplayMode().getWidth();
+		int height = gd.getDisplayMode().getHeight();
+		
+		logger.log(Level.INFO, "Resolution is: {0} X {1}", new Object[] {width, height});
+		
+		
+		frame.setSize (width, height);
+		//frame.setVisible(true);
+	}
+}
+
