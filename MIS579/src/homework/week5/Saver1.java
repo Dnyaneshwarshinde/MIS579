@@ -41,9 +41,14 @@ public class Saver1 {
 		
 		logger.log(Level.INFO, "Resolution is: {0} X {1}", new Object[] {width, height});
 		
-		
+		frame.setUndecorated(true);
 		frame.setSize (width, height);
-		//frame.setVisible(true);
+        frame.setResizable(false);
+        GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(frame);
+		
+		frame.setVisible(true);
+		//Now go into screenSaver mode;  (On the panel)
+		panel.screenSaver(1);
 		/*
 		//Testing to verify the getRandomBetweenMethod is inclusive of the min and max
 		for(int i=0; i<100; i++){

@@ -51,6 +51,7 @@ public class DrawPanel extends JPanel {
 		int widthCount = width / RESOLUTION;
 		int heightCount = height / RESOLUTION;
 		
+		
 		for (int i = 1; i <= RESOLUTION ; i++) {
 			g.drawLine(0 , heightCount * i, widthCount * i, height);
 			g.drawLine(widthCount * i, height, width, height -heightCount *i);
