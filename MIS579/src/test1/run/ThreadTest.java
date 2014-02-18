@@ -1,4 +1,8 @@
 package test1.run;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class ThreadTest implements Runnable {
 	
 	private String threadName;
@@ -13,9 +17,11 @@ public class ThreadTest implements Runnable {
 	}
 
 	public static void main(String[] args) {
+		ExecutorService threadExecutor = Executors.newCachedThreadPool();
 		for (int i = 0; i < THREAD_COUNT; i++) {
 			Thread newThread = new Thread(new ThreadTest("Thread " + (i + 1)));
-			newThread.start();
+			//newThread.start();
+			threadExecutor.execute( newThread);
 		}
 	}
 
