@@ -1,40 +1,37 @@
 package finalproject;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-//Run class
+import finalproject.ProjectLogger.LogLevel;
+
+//Run this class
 public class RunFinalProject {
 
+	//This Resource Bundle has a bunch of strings externalized from the code
 	public static final ResourceBundle bundle = ResourceBundle.getBundle("finalproject.settings");
+	private static final ProjectLogger logger = ProjectLogger.getInstance();
 	
 	public static void main(String[] args) {
-		//ProjectLog.INFO("Starting Final Project.");
-		//Create the JFrame
+		logger.setLevel(LogLevel.TRACE);
+		logger.info("Starting Final Project.");
+		//Create the Main JFrame
 		MainTabbedPaneFrame frame = new MainTabbedPaneFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//ProjectLog.DEBUG("Setting Image Icon");
+		logger.debug("Setting Image Icon");
 		frame.setIconImage(new ImageIcon( RunFinalProject.class.getResource(bundle.getString("window.icon"))).getImage());
 		try{
+			//Determine Height and Width of the JFrame
 			int height = Integer.parseInt(bundle.getString("window.height"));
 			int width = Integer.parseInt(bundle.getString("window.width"));
-			//ProjectLog.DEBUG("Height: " + height + "\tWidth: " + width);
+			logger.debug("Height: " + height + "\tWidth: " + width);
 			frame.setSize(width, height);
 			frame.setVisible(true);
 			
 		} catch (NumberFormatException e){
 			e.printStackTrace();
-			//ProjectLog.ERROR(e.toString());
-		}
-		try {
-			System.out.println(RunFinalProject.class.getName());
-			ClassLoader.getSystemResources(RunFinalProject.class.getName());
-		} catch (IOException e) {
-			
-			e.printStackTrace();
+			logger.error(e.toString());
 		}
 	}
 
