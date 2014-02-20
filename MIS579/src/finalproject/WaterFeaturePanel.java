@@ -7,36 +7,34 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 public class WaterFeaturePanel extends CalcPanel {
 	
 	private static final long serialVersionUID = -7762344392374040559L;
+	
+	private AbstractShape[] shapes = { new RectangleShape(), new SquareShape(), new CircleShape(), new RectangleShape("Custom")};
+	
 	//Labels
 	private JLabel panelLabel1;
-	private JLabel footerLabel1;
-	private JLabel footerLabel2;
+	//private JLabel footerLabel1;
+	//private JLabel footerLabel2;
 	private JLabel modelLabel;
 	private JLabel shapeLabel;
-	private JLabel unitsLabel;
 	
 	//ComboBoxes
 	private JComboBox modelComboBox;
 	private JComboBox shapeComboBox;
-	
-	//Radio Buttons
-	private JRadioButton metricRadioButton;
-	private JRadioButton usRadioButton;
-	private ButtonGroup radioGroup;
-	private Units unit;
 	
 	//Panels
 	private AbstractShape shape;
@@ -51,6 +49,8 @@ public class WaterFeaturePanel extends CalcPanel {
 	private JButton calculateButton;
 	private JButton clearButton;
 	private JButton saveButton;
+
+	private JTextArea answerTextArea;
 
 	public WaterFeaturePanel(String title, String toolTip, String name){
 		super(title, toolTip, name);
@@ -101,49 +101,25 @@ public class WaterFeaturePanel extends CalcPanel {
 		gridRow++;
 		
 		//Shape Pick List
-		//TODO: Shapes should be read...
 		shapeLabel = new JLabel(getResourseString("shape.label"));
-		shapeComboBox = new JComboBox();
-		shapeComboBox.addItem("Circle");
-		shapeComboBox.addItem("Square");
-		shapeComboBox.addItem("Rectangle");
-		shapeComboBox.addItem("Oval");
-		shapeComboBox.addItem("Custom");
+		shapeComboBox = new JComboBox(shapes);
 		shapeLabel.setLabelFor(shapeComboBox);
-		shapeComboBox.setSelectedItem("Rectangle");
+		shapeComboBox.setSelectedItem(shapes[0]);
 		constraints.anchor = GridBagConstraints.EAST;
 		addComponent(shapeLabel, gridRow, 0, 2, 1 );
 		constraints.anchor = GridBagConstraints.WEST;
 		constraints.fill = GridBagConstraints.HORIZONTAL;
+		ShapeHandler shapeHandler = new ShapeHandler();
+		shapeComboBox.addItemListener(shapeHandler);
 		addComponent(shapeComboBox, gridRow, 2, 2, 1 );
 		constraints.fill = GridBagConstraints.NONE;
 		gridRow++;
 		
-		//Units Option Box
-		UnitsHandler unitsHandler = new UnitsHandler();
-		unitsLabel = new JLabel(getResourseString("units.label"));
-		metricRadioButton = new JRadioButton(getResourseString("units.metric.label"), false);
-		metricRadioButton.setMnemonic(getResourseString("units.metric.mnemonic").charAt(0));
-		metricRadioButton.addActionListener(unitsHandler);
-		usRadioButton = new JRadioButton(getResourseString("units.us.label"), true);
-		usRadioButton.setMnemonic(getResourseString("units.us.mnemonic").charAt(0));
-		usRadioButton.addActionListener(unitsHandler);
-		setUnit();
-		radioGroup = new ButtonGroup();
-		unitsLabel.setLabelFor(usRadioButton);
-		radioGroup.add(usRadioButton);
-		radioGroup.add(metricRadioButton);
-		constraints.anchor = GridBagConstraints.EAST;
-		addComponent(unitsLabel, gridRow, 0, 2, 1);
-		constraints.anchor = GridBagConstraints.WEST;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		addComponent(usRadioButton, gridRow, 2, 1, 1);
-		addComponent(metricRadioButton, gridRow, 3, 1, 1);
-		gridRow++;
 		
-		//TODO: Make the shape choice based on the current selection 
-		shape = new PoolRectangleShape("Rectangle", unit);
-		addComponent(shape, gridRow, 0, 5,3);
+		//Show the appropriate Shape Input fields
+		logger.trace(shapeComboBox.getSelectedItem().getClass().getName());
+		shape = (AbstractShape) shapeComboBox.getSelectedItem(); // new RectangleShape();
+		addComponent(shape, gridRow, 0, 5, 3);
 		gridRow=gridRow+3;
 		
 		//Now for the Buttons - Calculate, Clear and Save
@@ -156,21 +132,21 @@ public class WaterFeaturePanel extends CalcPanel {
 		clearButton = new JButton(getResourseString("clear.button"));
 		clearButton.setMnemonic(getResourseString("clear.button.mnemonic").charAt(0));
 		clearButton.addActionListener(buttonHandler);
-		saveButton = new JButton(getResourseString("save.button"));
-		saveButton.setMnemonic(getResourseString("save.button.mnemonic").charAt(0));
-		saveButton.addActionListener(buttonHandler);
+		//saveButton = new JButton(getResourseString("save.button"));
+		//saveButton.setMnemonic(getResourseString("save.button.mnemonic").charAt(0));
+		//saveButton.addActionListener(buttonHandler);
 		addComponent(calculateButton, gridRow, 2, 1, 1);
 		addComponent(clearButton, gridRow, 3, 1, 1);
-		addComponent(saveButton, gridRow, 4, 1, 1);
-	}
-
-
-	private void setUnit() {
-		if (metricRadioButton.isSelected()) {
-			unit = Units.Metric;
-		} else {
-			unit = Units.US;
-		}
+		//addComponent(saveButton, gridRow, 4, 1, 1);
+		gridRow++;
+		
+		//Answer Panel
+		answerPanel = new JPanel();
+		answerTextArea = new JTextArea(title + " calculation log:\n", 10, 30);
+		answerTextArea.setEditable(false);
+		answerPanel.add(new JScrollPane(answerTextArea));
+		addComponent(answerPanel, gridRow, 0, 5, 5);
+		
 	}
 
 	//Just a helper method to make GridBagLayout easier
@@ -192,11 +168,13 @@ public class WaterFeaturePanel extends CalcPanel {
 			if (event.getSource() == calculateButton) {
 				//Need to call the Shape dependent implemenation of the calculate function
 				logger.debug("Calculate Button Pressed");
-				int answer = WaterFeaturePanel.this.shape.calculateVolume();
+				String answer = shape.calculateVolume();
+				answerTextArea.append(answer); 
 
 			} else if (event.getSource() == clearButton) {
 				// Clear things
 				logger.debug("Clear Button Pressed");
+				shape.clear();
 				
 			} else if (event.getSource() == saveButton){
 				//Save things
@@ -206,14 +184,21 @@ public class WaterFeaturePanel extends CalcPanel {
 		} // actionPerformed
 	}
 	
-	private class UnitsHandler implements ActionListener {
+	private class ShapeHandler implements ItemListener {
 
 		@Override
-		public void actionPerformed(ActionEvent event) {
-			logger.debug(event.getSource());
-			WaterFeaturePanel.this.setUnit();
-			shape.setUnit(unit);
-			logger.debug("Setting unit: " + unit);
+		public void itemStateChanged(ItemEvent event) {
+			if (event.getStateChange() == ItemEvent.SELECTED) {
+				logger.debug("Shape has changed: " + shapeComboBox.getSelectedItem().toString());
+				remove(shape);
+				shape = (AbstractShape)shapeComboBox.getSelectedItem();
+				addComponent(shape, 3,  0, 5, 3 );
+				revalidate();  
+				repaint();
+				shape.revalidate();
+				shape.repaint();
+				logger.debug(shape);
+			}
 		}
 	}
 	

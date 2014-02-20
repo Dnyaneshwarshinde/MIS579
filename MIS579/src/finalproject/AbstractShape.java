@@ -4,11 +4,10 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ResourceBundle;
-import java.util.logging.Logger;
+import java.text.DecimalFormat;
+
 
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /*
@@ -23,17 +22,18 @@ public abstract class AbstractShape extends JPanel{
 	
 	
 	private static final long serialVersionUID = 1322502282562419719L;
-
-	public static final ProjectLogger logger = ProjectLogger.getInstance();
+	protected static final double GALLONS_PER_CUBIC_FOOT = 7.48052;
+	protected static final String CALC_SEPERATOR_LINE = "***************VolumeCalc***************\n";
+	protected static final ProjectLogger logger = ProjectLogger.getInstance();
 	
+	protected DecimalFormat df = new DecimalFormat("#,##0.00##");
 	protected String shapeName;
 	protected GridBagLayout layout;
 	protected GridBagConstraints constraints;
-	protected Units unit;
 	
-	public AbstractShape(String shapeName, Units unit){
+	
+	public AbstractShape(String shapeName){
 		this.shapeName = shapeName;
-		this.unit = unit;
 		this.layout = new GridBagLayout();
 		this.setLayout(layout);
 		//Constraints
@@ -42,9 +42,11 @@ public abstract class AbstractShape extends JPanel{
 		this.setBorder(BorderFactory.createTitledBorder(shapeName));
 	}
 	
+	public abstract void show();
+	
 	
 	//Each subclass will have to include an implementation of calculateVolume();
-	public abstract int calculateVolume();
+	public abstract String calculateVolume();
 	
 	protected void addComponent(Component component, int row, int column, int width, int height) {
 		constraints.gridx = column;
@@ -64,13 +66,21 @@ public abstract class AbstractShape extends JPanel{
 		return shapeName;
 	}
 
-	public void setShapeName(String shapeName) {
-		this.shapeName = shapeName;
+	public abstract void clear();
+	
+	protected boolean isNumber(String number){
+		boolean ret = true;
+		try{
+			Double.parseDouble(number);
+		} catch (NumberFormatException e){
+			e.printStackTrace();
+			logger.error(e.toString());
+			ret = false;
+		}
+		return ret;
 	}
-
-
-	public void setUnit(Units unit) {
-		this.unit = unit;
+	protected double getNumber(String number){
+		return Double.parseDouble(number);
 	}
 	
 }

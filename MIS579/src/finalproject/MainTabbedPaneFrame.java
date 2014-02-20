@@ -39,19 +39,6 @@ public class MainTabbedPaneFrame extends JFrame {
 			tabbedPane.addTab(panel.getTitle(), null, panel, panel.getToolTip());
 		}
 		
-		/*
-		PoolPanel poolPanel = new PoolPanel();
-		tabbedPane.addTab(RunFinalProject.bundle.getString("panel1.title"), null, poolPanel, RunFinalProject.bundle.getString("panel1.tip"));
-		*/
-		
-		/*
-		//Tab 2 - Spas
-		JLabel tabLabel2 = new JLabel(RunFinalProject.bundle.getString("panel2.label"), SwingConstants.CENTER);
-		JPanel panel2 = new JPanel();
-		panel2.add( tabLabel2 );
-		tabbedPane.addTab(RunFinalProject.bundle.getString("panel2.title"), null, panel2, RunFinalProject.bundle.getString("panel2.tip"));
-		*/
-		
 		//Add a footer panel for the exit button
 		JPanel panelFooter = new JPanel();
 		panelFooter.setLayout(new FlowLayout());
