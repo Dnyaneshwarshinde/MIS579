@@ -33,13 +33,19 @@ public class SquareShape extends AbstractShape {
 		strReturn += "Shape: " + this.shapeName + "\n";
 		strReturn += "Length=" + this.lengthTextField.getText() + "\n";
 		strReturn += "Depth=" + this.depthTextField.getText() + "\n";
+		//Error handling
 		//TODO: Error handling
-		int length = Integer.parseInt(this.lengthTextField.getText());
-		int depth = Integer.parseInt(this.depthTextField.getText());
-		int volume = length*length*depth;
-		strReturn += "Volume = " + volume + " cubic ft" + "\n";
-		strReturn += "Volume = " + (volume * GALLONS_PER_CUBIC_FOOT) + " gallons" + "\n";
-		strReturn += CALC_SEPERATOR_LINE;
+		if (isNumber(this.lengthTextField.getText()) && isNumber(this.depthTextField.getText())){
+			double length = Double.parseDouble(this.lengthTextField.getText());
+			
+			double depth = Double.parseDouble(this.depthTextField.getText());
+			double volume = length*length*depth;
+			strReturn += "Volume = " + df.format(volume) + " cubic ft" + "\n";
+			strReturn += "Volume = " + df.format(volume * GALLONS_PER_CUBIC_FOOT) + " gallons" + "\n";
+		} else {
+			strReturn += "Error parsing your dimensional entries.\n";
+			this.showErrorMessage();
+		}
 		return strReturn;
 	}
 

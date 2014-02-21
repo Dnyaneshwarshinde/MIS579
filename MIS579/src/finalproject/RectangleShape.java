@@ -35,7 +35,7 @@ public class RectangleShape extends AbstractShape {
 		strReturn += "Length=" + this.lengthTextField.getText() + "\n";
 		strReturn += "Width=" + this.widthTextField.getText() + "\n";
 		strReturn += "Depth=" + this.depthTextField.getText() + "\n";
-		//TODO: Error handling
+		//Error handling
 		if (isNumber(this.lengthTextField.getText()) && isNumber(this.widthTextField.getText()) && isNumber(this.depthTextField.getText())){
 			double length = Double.parseDouble(this.lengthTextField.getText());
 			double width = Double.parseDouble(this.widthTextField.getText());
@@ -44,10 +44,9 @@ public class RectangleShape extends AbstractShape {
 			strReturn += "Volume = " + df.format(volume) + " cubic ft" + "\n";
 			strReturn += "Volume = " + df.format(volume * GALLONS_PER_CUBIC_FOOT) + " gallons" + "\n";
 		} else {
-			
+			strReturn += "Error parsing your dimensional entries.\n";
+			this.showErrorMessage();
 		}
-		
-		strReturn += CALC_SEPERATOR_LINE;
 		return strReturn;
 		
 	}

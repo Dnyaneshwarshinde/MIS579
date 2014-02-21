@@ -1,10 +1,7 @@
 package finalproject;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -23,7 +20,7 @@ public class WaterFeaturePanel extends CalcPanel {
 	
 	private static final long serialVersionUID = -7762344392374040559L;
 	
-	private AbstractShape[] shapes = { new RectangleShape(), new SquareShape(), new CircleShape(), new RectangleShape("Custom")};
+	private AbstractShape[] shapes = { new RectangleShape(), new SquareShape(), new CircleShape(), new EllipseShape(), new RectangleShape("Custom")};
 	
 	//Labels
 	private JLabel panelLabel1;

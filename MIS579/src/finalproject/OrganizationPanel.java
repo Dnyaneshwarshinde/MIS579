@@ -1,22 +1,18 @@
 package finalproject;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JList;
-import javax.swing.ListSelectionModel;
+import javax.swing.JTable;
 
 public class OrganizationPanel extends CalcPanel {
 	
 	private static final long serialVersionUID = 6929506581372808186L;
 	
-	private String filename;
-	private File file;
 	private JList recordsList;
+	private JTable table;
 	
 	private JButton openButton;
 	private JButton newButton;
@@ -36,6 +32,7 @@ public class OrganizationPanel extends CalcPanel {
 		constraints.weighty=0;//0.00001;
 		constraints.insets = new Insets(0, 0, 10, 10);
 		*/
+		/*
 		String[] listItems = {"Item1", "Item2", "Item3", "Item4"};
 		recordsList = new JList(listItems);
 		recordsList.setVisibleRowCount(10);
@@ -43,6 +40,8 @@ public class OrganizationPanel extends CalcPanel {
 		
 		recordsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		addComponent( recordsList, 0, 0, 1, 1);
+		*/
+		table = new JTable();
 		
 		openButton = new JButton(this.getResourseString("open.button"));
 		openButton.setMnemonic(this.getResourseString("open.button.mnemonic").charAt(0));

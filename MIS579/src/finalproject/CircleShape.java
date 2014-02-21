@@ -53,7 +53,7 @@ public class CircleShape extends AbstractShape {
 		strReturn += "Shape: " + this.shapeName + "\n";
 		strReturn += "Radius=" + this.radiusTextField.getText() + "\n";
 		strReturn += "Depth=" + this.depthTextField.getText() + "\n";
-		//TODO: Error handling
+		//Error handling
 		if ( isNumber(this.radiusTextField.getText()) && isNumber(this.depthTextField.getText()) ){
 			double radius = getNumber(this.radiusTextField.getText());
 			double depth = getNumber(this.depthTextField.getText());
@@ -65,8 +65,6 @@ public class CircleShape extends AbstractShape {
 			strReturn += "Error parsing your dimensional entries.\n";
 			this.showErrorMessage();
 		}
-		
-		strReturn += CALC_SEPERATOR_LINE;
 		return strReturn;
 	}
 
