@@ -36,12 +36,17 @@ public class RectangleShape extends AbstractShape {
 		strReturn += "Width=" + this.widthTextField.getText() + "\n";
 		strReturn += "Depth=" + this.depthTextField.getText() + "\n";
 		//TODO: Error handling
-		int length = Integer.parseInt(this.lengthTextField.getText());
-		int width = Integer.parseInt(this.widthTextField.getText());
-		int depth = Integer.parseInt(this.depthTextField.getText());
-		int volume = length*width*depth;
-		strReturn += "Volume = " + volume + " cubic ft" + "\n";
-		strReturn += "Volume = " + (volume * GALLONS_PER_CUBIC_FOOT) + " gallons" + "\n";
+		if (isNumber(this.lengthTextField.getText()) && isNumber(this.widthTextField.getText()) && isNumber(this.depthTextField.getText())){
+			double length = Double.parseDouble(this.lengthTextField.getText());
+			double width = Double.parseDouble(this.widthTextField.getText());
+			double depth = Double.parseDouble(this.depthTextField.getText());
+			double volume = length*width*depth;
+			strReturn += "Volume = " + df.format(volume) + " cubic ft" + "\n";
+			strReturn += "Volume = " + df.format(volume * GALLONS_PER_CUBIC_FOOT) + " gallons" + "\n";
+		} else {
+			
+		}
+		
 		strReturn += CALC_SEPERATOR_LINE;
 		return strReturn;
 		

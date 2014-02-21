@@ -3,6 +3,7 @@ package finalproject;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class CircleShape extends AbstractShape {
@@ -62,6 +63,7 @@ public class CircleShape extends AbstractShape {
 			
 		} else {
 			strReturn += "Error parsing your dimensional entries.\n";
+			this.showErrorMessage();
 		}
 		
 		strReturn += CALC_SEPERATOR_LINE;

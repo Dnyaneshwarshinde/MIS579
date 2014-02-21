@@ -16,7 +16,9 @@ public class MainTabbedPaneFrame extends JFrame {
 	private static final long serialVersionUID = -7638722326754484691L;
 	public static final ProjectLogger logger = ProjectLogger.getInstance();
 	private JTabbedPane tabbedPane;
-	private CalcPanel[] panels = { new WaterFeaturePanel("panel1") , new WaterFeaturePanel("panel2")}; //, new SpaPanel(), new ContractorPanel(), new VendorsPanel(), new CustomersPanel() };
+	private CalcPanel[] panels = { new WaterFeaturePanel("panel1"), 
+			new WaterFeaturePanel("panel2"),
+			new OrganizationPanel("Customer", "Customer", "Customer")}; //, new SpaPanel(), new ContractorPanel(), new VendorsPanel(), new CustomersPanel() };
 	
 	
 	public MainTabbedPaneFrame(){

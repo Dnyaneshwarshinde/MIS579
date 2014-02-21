@@ -25,12 +25,16 @@ import javax.swing.JFrame;
 public class Saver1 {
 	
 	private static final Logger logger = Logger.getLogger(Saver1.class.getName());
+	
+	protected static JFrame frame;
 
 	public static void main (String[] args){
+		
+		
 		logger.setLevel(Level.INFO);
 		
 		Saver1Panel panel = new Saver1Panel();
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(panel);
 		
@@ -44,18 +48,15 @@ public class Saver1 {
 		frame.setUndecorated(true);
 		frame.setSize (width, height);
         frame.setResizable(false);
-        GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(frame);
+        //GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(frame);
 		
 		frame.setVisible(true);
 		//Now go into screenSaver mode;  (On the panel)
 		panel.screenSaver(1);
-		/*
-		//Testing to verify the getRandomBetweenMethod is inclusive of the min and max
-		for(int i=0; i<100; i++){
-			int rndInt = Saver1Panel.getRandomBetween(-10, 10);
-			logger.log(Level.INFO, "{0}: Number is [{1}]", new Object[] {i, rndInt});
-		}
-		*/
+	}
+	
+	public static JFrame getFrame(){
+		return frame;
 	}
 }
 

@@ -41,8 +41,8 @@ public class WaterFeaturePanel extends CalcPanel {
 	private JPanel answerPanel;
 	
 	//Layouts
-	private GridBagLayout gbLayout;
-	private GridBagConstraints constraints;
+	//private GridBagLayout layout;
+	//private GridBagConstraints constraints;
 	
 	
 	//Calculate Button
@@ -64,12 +64,14 @@ public class WaterFeaturePanel extends CalcPanel {
 	public void initializePanel(){
 		//Set up the layout manager
 		logger.info("Initializing the panel: " + name);
-		gbLayout = new GridBagLayout();
-		this.setLayout(gbLayout);
+		/*
+		layout = new GridBagLayout();
+		this.setLayout(layout);
 		constraints = new GridBagConstraints();
 		constraints.weightx=0;//0.00001;
 		constraints.weighty=0;//0.00001;
 		constraints.insets = new Insets(0, 0, 10, 10);
+		*/
 		int gridRow = 0;
 		
 		//Top Label
@@ -148,17 +150,6 @@ public class WaterFeaturePanel extends CalcPanel {
 		addComponent(answerPanel, gridRow, 0, 5, 5);
 		
 	}
-
-	//Just a helper method to make GridBagLayout easier
-	private void addComponent(Component component, int row, int column, int width, int height) {
-		constraints.gridx = column;
-		constraints.gridy = row;
-		constraints.gridwidth = width;
-		constraints.gridheight = height;
-		gbLayout.setConstraints(component, constraints);
-		add(component);
-	}
-	
 	
 	private class ButtonHandler implements ActionListener {
 

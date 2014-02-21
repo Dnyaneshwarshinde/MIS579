@@ -7,7 +7,9 @@ import java.awt.Insets;
 import java.text.DecimalFormat;
 
 
+
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /*
@@ -81,6 +83,10 @@ public abstract class AbstractShape extends JPanel{
 	}
 	protected double getNumber(String number){
 		return Double.parseDouble(number);
+	}
+	
+	protected void showErrorMessage(){
+		JOptionPane.showMessageDialog(this, "There was an error with one of your entries.  Only numbers are accepted.");
 	}
 	
 }

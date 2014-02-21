@@ -4,13 +4,16 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 /* *
  * Matt Wolff
@@ -27,30 +30,38 @@ import javax.swing.JPanel;
 
 public class Saver1Panel extends JPanel {
 	
+	//Added logging for this project
 	private static final Logger logger = Logger.getLogger(Saver1Panel.class.getName());
+	//Several Constants Used to construct the line
 	private static final int COLOR_CHANGE_MAGNITUDE = 20;
 	private static final int LINE_CHANGE_MAGNITUDE = 20;
 	private static final int LINE_THICKNESS = 3;
 	private static final int LINES_TO_DRAW = 100;
 	private static final int WAIT_TIME = 100; //milliseconds
+	private static final boolean USE_2D = false;
 	
+	//This array list holds line data and is populated in one of the screen saver methods, which calls the repaint and sleeps
 	private ArrayList<LineData> lineDataList = new ArrayList<LineData>();
+	//Interrupt will be true when an event listener triggers the exit
 	private boolean interrupt = false;
 	
 	
 	
 	public Saver1Panel(){
 		super();
+		//Set the background to black
+		this.setBackground(Color.BLACK);
+		//Register the mouse handler
 		MouseHandler handler = new MouseHandler();
-		this.addMouseListener(handler);
-		
+		this.addMouseMotionListener(handler);
 	}
 	
+	//Not part of the assignement, just wanted to load up the lineDataList with some other data
 	private void screenSaverRndRelatedLines(){
 		do {
 			LineData priorLine = getRandomLine();
 			
-			for (int i=0; i< LINES_TO_DRAW; i++){
+			for (int i=0; i< LINES_TO_DRAW*10; i++){
 				//Check to see if the we need to interrupt.
 				if (interrupt) {
 					break;
@@ -61,7 +72,6 @@ public class Saver1Panel extends JPanel {
 				this.repaint();
 				//Sleep
 				try {
-					//logger.log(Level.INFO, "Sleeping for {0} milliseconds", WAIT_TIME);
 					Thread.sleep(WAIT_TIME);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -72,6 +82,8 @@ public class Saver1Panel extends JPanel {
 		} while (!interrupt);
 	}
 	
+	//This method is for the assignement, and will load 100 random lines into the lineDataList
+	//While loading the list, repaint is called to update the Panel and then the thread sleeps for a little while
 	private void screenSaverRndLines(){
 		do {
 			for (int i=0; i< LINES_TO_DRAW; i++){
@@ -80,8 +92,8 @@ public class Saver1Panel extends JPanel {
 				}
 				LineData lineData = getRandomLine();
 				lineDataList.add(lineData);
+				this.repaint();
 				try {
-					//logger.log(Level.INFO, "Sleeping for {0} milliseconds", WAIT_TIME);
 					Thread.sleep(WAIT_TIME);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -93,9 +105,10 @@ public class Saver1Panel extends JPanel {
 	}
 	
 	private void screenSaverBouncingBall(){
-		
+		//TODO: Write another screensaver
 	}
 	
+	//This is called from Saver1 to enter screensaver mode with a parameter indicating which type of screensaver to run.
 	public void screenSaver(int type){
 		switch (type) {
 			case 1 :
@@ -109,22 +122,37 @@ public class Saver1Panel extends JPanel {
 		}
 	}
 	
+	//Paint component just loops through the lineDataList and paints the appropriate lines
+	//I've decided to go with Graphics2D version of line so that I can set the thickness, which looks better
 	@Override
 	public void paintComponent (Graphics g){
 		//Call superclass's paint component
 		super.paintComponent(g);
 		
-		Graphics2D g2 = (Graphics2D)g;
-		
-		for(LineData lineData : lineDataList){
-			g2.setColor(lineData.color);
-			g2.setStroke(new BasicStroke(LINE_THICKNESS));
-			g2.draw(new Line2D.Float(lineData.x1, lineData.y1, lineData.x2, lineData.y2));
+		//Loop throught he lineData ArrayList and draw each line
+		if (USE_2D){
+			//Cast g to a Graphics2D instance
+			Graphics2D g2 = (Graphics2D)g;
+			for(LineData lineData : lineDataList){
+				g2.setColor(lineData.color);
+				g2.setStroke(new BasicStroke(LINE_THICKNESS));
+				g2.draw(new Line2D.Float(lineData.x1, lineData.y1, lineData.x2, lineData.y2));
+			}
+		} else {
+			//Alternate - use the standard drawLine method
+			for(LineData lineData : lineDataList){
+				g.setColor(lineData.color);
+				g.drawLine(lineData.x1, lineData.y1, lineData.x2, lineData.y2);
+				//g.fillOval(x, y, width, height);
+			}
 		}
-		//repaint();
+		
+		
+		
 	}
 	
-	
+	//This method will return a slightly modified color from the color given.
+	//It will randomly select one RGB component and vary it by + or - COLOR_CHANGE_MAGNITUDE value
 	private static Color getNextColor(Color startColor){
 		//Get the current RGB values
 		int r,g,b;
@@ -148,6 +176,7 @@ public class Saver1Panel extends JPanel {
 		return returnColor;
 	}
 	
+	//Just make sure that the color value is within the acceptable range (0-255)
 	private static int validateColorLevel(int level){
 		if (level > 255) {
 			return 255;
@@ -164,6 +193,8 @@ public class Saver1Panel extends JPanel {
 		return min + (int)(Math.random() * ((max - min) + 1));
 	}
 	
+	//This method will return a LineData object that is slightly different than the one given in the parameters
+	//The new LineDat will have a altered color, and endpoints that vary by +- LINE_CHANGE_MAGNITUDE
 	public LineData getVariedLine(LineData lineData){
 		LineData lineDataReturn = new LineData();
 		lineDataReturn.color = getNextColor(lineData.color);
@@ -174,7 +205,7 @@ public class Saver1Panel extends JPanel {
 		lineDataReturn.y2 = lineData.y2 + getRandomBetween(-LINE_CHANGE_MAGNITUDE, LINE_CHANGE_MAGNITUDE);
 		return lineDataReturn;
 	}
-	
+	//Just get a random line in LineData format
 	public LineData getRandomLine(){
 		Color color = new Color(getRandomBetween(0,255), getRandomBetween(0,255),getRandomBetween(0,255));
 		int x1 = getRandomBetween(0, getWidth());
@@ -217,36 +248,44 @@ public class Saver1Panel extends JPanel {
 		}
 
 
-	private class MouseHandler implements MouseListener {
+	private class MouseHandler implements MouseMotionListener {
 
+		private int lastx = 0;
+		private int lasty = 0;
+		
 		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+		public void mouseDragged(MouseEvent event) {
+			//Mouse movement detected, exit screen saver
+			logger.log(Level.INFO, "Mouse Dragged. Exiting.");
+			Saver1Panel.this.interrupt=true;
+			Saver1.getFrame().dispose();
+			System.exit(0);
 			
 		}
 
 		@Override
-		public void mouseEntered(MouseEvent event) {
-			logger.log(Level.INFO, "Mouse Entered.");	
-		}
-
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			logger.log(Level.INFO, "Mouse Exited.");	
+		public void mouseMoved(MouseEvent event) {
+			//If lastx is 0, the program just started
+			if (lastx != 0){
+				if (lastx != event.getX() || lasty != event.getY()){
+					logger.log(Level.INFO, "Mouse Moved. Exiting X: " + lastx + " --> " + event.getX());
+					logger.log(Level.INFO, "Mouse Moved. Exiting Y: " + lasty + " --> " + event.getY());
+					Saver1Panel.this.interrupt=true;
+					Saver1.getFrame().dispose();
+					System.exit(0);
+				} else {
+					lastx = event.getX();
+					lasty = event.getY();
+				}
+				
+			} else {
+				lastx = event.getX();
+				lasty = event.getY();
+			}
 			
 		}
 
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			logger.log(Level.INFO, "Mouse pressed.");	
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			logger.log(Level.INFO, "Mouse released.");	
-			
-		}
+		
 		
 	}
 }
