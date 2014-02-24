@@ -18,7 +18,10 @@ public class MainTabbedPaneFrame extends JFrame {
 	private JTabbedPane tabbedPane;
 	private CalcPanel[] panels = { new WaterFeaturePanel("panel1"), 
 			new WaterFeaturePanel("panel2"),
-			new OrganizationPanel("Customer", "Customer", "Customer")}; //, new SpaPanel(), new ContractorPanel(), new VendorsPanel(), new CustomersPanel() };
+			new OrganizationPanel("Customer", "Customer data entry", "Customer"),
+			new OrganizationPanel("Vendor", "Vendor data entry", OrganizationPanel.VENDOR),
+			new OrganizationPanel("Contractor", "Contractor data entry", OrganizationPanel.CONTRACTOR)
+			}; //, new SpaPanel(), new ContractorPanel(), new VendorsPanel(), new CustomersPanel() };
 	
 	
 	public MainTabbedPaneFrame(){
@@ -34,7 +37,7 @@ public class MainTabbedPaneFrame extends JFrame {
 		
 		//Add tabs to the pane
 		//Tab 1 - Pools
-		logger.info("Creating Pool Panel and Adding");
+		logger.info("Creating Panel and Adding");
 		
 		for (CalcPanel panel : panels){
 			logger.info("Adding panel titled: " + panel.getTitle());

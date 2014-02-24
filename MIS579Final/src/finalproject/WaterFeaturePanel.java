@@ -79,7 +79,8 @@ public class WaterFeaturePanel extends CalcPanel {
 		gridRow++;
 		
 		//Model Pick List
-		//TODO: Models list should be read in from a text file with items that have been saved
+		//Decided not to implement Models
+		/*
 		modelLabel = new JLabel(getResourseString("model.label"));
 		modelComboBox = new JComboBox();
 		modelComboBox.addItem("Pool 001");
@@ -96,8 +97,8 @@ public class WaterFeaturePanel extends CalcPanel {
 		addComponent( modelComboBox, gridRow, 2, 2, 1);
 		constraints.fill = GridBagConstraints.NONE;
 		constraints.anchor = GridBagConstraints.NONE;
-		
 		gridRow++;
+		*/
 		
 		//Shape Pick List
 		shapeLabel = new JLabel(getResourseString("shape.label"));
@@ -119,7 +120,7 @@ public class WaterFeaturePanel extends CalcPanel {
 		logger.trace(shapeComboBox.getSelectedItem().getClass().getName());
 		shape = (AbstractShape) shapeComboBox.getSelectedItem(); // new RectangleShape();
 		addComponent(shape, gridRow, 0, 5, 3);
-		gridRow=gridRow+3;
+		gridRow=gridRow+4;
 		
 		//Now for the Buttons - Calculate, Clear and Save
 		logger.debug("Creating the Button Handler");
@@ -131,12 +132,8 @@ public class WaterFeaturePanel extends CalcPanel {
 		clearButton = new JButton(getResourseString("clear.button"));
 		clearButton.setMnemonic(getResourseString("clear.button.mnemonic").charAt(0));
 		clearButton.addActionListener(buttonHandler);
-		//saveButton = new JButton(getResourseString("save.button"));
-		//saveButton.setMnemonic(getResourseString("save.button.mnemonic").charAt(0));
-		//saveButton.addActionListener(buttonHandler);
 		addComponent(calculateButton, gridRow, 2, 1, 1);
 		addComponent(clearButton, gridRow, 3, 1, 1);
-		//addComponent(saveButton, gridRow, 4, 1, 1);
 		gridRow++;
 		
 		//Answer Panel

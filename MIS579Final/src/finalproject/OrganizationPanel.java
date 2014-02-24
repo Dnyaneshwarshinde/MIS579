@@ -3,6 +3,8 @@ package finalproject;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,8 +24,8 @@ public class OrganizationPanel extends CalcPanel {
 	public static final String CONTRACTOR = "Contractor";
 	public static final String CUSTOMER = "Customer";
 	
-	private JList recordsList;
-	private AbstractContactModel contactModel;
+	//private JList recordsList;
+	protected AbstractContactModel contactModel;
 	private JTable table;
 	
 	private JButton openButton;
@@ -64,13 +66,17 @@ public class OrganizationPanel extends CalcPanel {
 		
 		addComponent(scrollpane, 0, 0, 4, 1);
 		
+		ButtonHandler handler = new ButtonHandler();
+		
 		openButton = new JButton(this.getResourseString("open.button"));
 		openButton.setMnemonic(this.getResourseString("open.button.mnemonic").charAt(0));
 		addComponent( openButton, 1, 1, 1, 1);
+		openButton.addActionListener(handler);
 		
 		newButton = new JButton(this.getResourseString("new.button"));
 		newButton.setMnemonic(this.getResourseString("new.button.mnemonic").charAt(0));
 		addComponent( newButton, 1, 2, 1, 1);
+		newButton.addActionListener(handler);
 		
 	}
 
@@ -90,9 +96,27 @@ public class OrganizationPanel extends CalcPanel {
 			logger.error("Unknown Model type.");
 			contactModel = null;
 		}
-		
 	}
 
-	
+	private class ButtonHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			//See which button was pressed
+			if (event.getSource() == openButton) {
+				//Dispose of the form
+				logger.debug("Open Button Pressed");
+				if (OrganizationPanel.this.table.getSelectedRow() > -1 ){
+					logger.debug("Editing existing contact.");
+					contactModel.editContact(OrganizationPanel.this, contactModel.list.get(OrganizationPanel.this.table.getSelectedRow()));
+				}
+			} else if (event.getSource() == newButton) {
+				//Update the CustomerBean data
+				logger.debug("New Button Pressed");
+				contactModel.newContact(OrganizationPanel.this);
+			}
+				
+		} // actionPerformed
+	}
 
 }

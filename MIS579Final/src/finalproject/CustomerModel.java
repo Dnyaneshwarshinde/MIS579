@@ -23,35 +23,20 @@ public class CustomerModel extends AbstractContactModel {
 	public CustomerModel(String name) {
 		super(name);
 		
+		readFile();
+		
 		//Now load customer data
-		
-		CustomerBean cb = new CustomerBean();
-		cb.setFirstName("Matt");
-		cb.setLastName("Wolff");
-		cb.setStreetAddress("123 Bedrock Ct.");
-		cb.setCity("OakCity");
-		cb.setState("IL");
-		cb.setZip("12345");
-		this.add(cb);
-		
-		
-		/*
-		try {
-			list = readListFile();
-			//add(list);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			logger.error("Error reading CustomerFile");
+		if (this.list.size() == 0) {
+			logger.info("No contacts in list.  Adding a generic.");
+			CustomerBean cb = new CustomerBean();
+			cb.setFirstName("Matt");
+			cb.setLastName("Wolff");
+			cb.setStreetAddress("123 Bedrock Ct.");
+			cb.setCity("OakCity");
+			cb.setState("IL");
+			cb.setZip("12345");
+			this.add(cb);
 		}
-		*/
-		
-		try {
-			this.writeListFile();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			logger.error(e.toString());
-		}
-		
 		
 	}
 	
@@ -76,24 +61,6 @@ public class CustomerModel extends AbstractContactModel {
 		return null;
 	}
 	
-	private List<ContactBean> readListFile() throws FileNotFoundException{
-		FileInputStream is = new FileInputStream(file);
-	    XMLDecoder decoder = new XMLDecoder(is);
-	    List<ContactBean> list = (List<ContactBean>) decoder.readObject(); 
-	    decoder.close();
-	    return list;
-	}
-	
-	private void writeListFile() throws FileNotFoundException{
-		FileOutputStream os =new FileOutputStream(file);
-	    XMLEncoder encoder=new XMLEncoder(os);
-	    //for (ContactBean contact : list){
-	    //	encoder.writeObject(contact);
-	    //}
-	    logger.info("Writing datat to file: " + file.getAbsolutePath());
-	    encoder.writeObject(list);
-	    encoder.close();
-	}
 
 	@Override
 	public TableColumnModel getColumnModel() {
@@ -128,6 +95,17 @@ public class CustomerModel extends AbstractContactModel {
 		columnModel.addColumn(column);
 		
 		return columnModel;
+	}
+
+	@Override
+	public void newContact(OrganizationPanel panel) {
+		new CustomerFrame(panel);
+	}
+
+	@Override
+	public void editContact(OrganizationPanel panel, ContactBean contactBean) {
+		new CustomerFrame(contactBean, panel);
+		
 	}
 
 }

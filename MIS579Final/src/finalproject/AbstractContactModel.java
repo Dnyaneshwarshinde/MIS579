@@ -1,6 +1,11 @@
 package finalproject;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,25 +24,12 @@ public abstract class AbstractContactModel extends AbstractTableModel {
 	
 	public AbstractContactModel(String name) {
 		this.name = name;
-		URL url = AbstractContactModel.class.getResource("pool.jpg");
-		
-		logger.info("File URL: " + url);
-		/*
-		try {
-			file = new File(url.toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-			logger.error(e.toString());
-		}
-		*/
-		/*
 		String fileName = ""
-				+ AbstractContactModel.class.getProtectionDomain().getCodeSource().getLocation().getPath() 
+				//+ AbstractContactModel.class.getProtectionDomain().getCodeSource().getLocation().getPath() 
 				//+ System.getProperty("file.separator") 
 				+ this.name + ".xml";
 		logger.debug("File for " + name + " objects: " + fileName);
 		file = new File(fileName);	
-		*/
 	}
 	
 	public void add(List<ContactBean> newItems){
@@ -45,12 +37,14 @@ public abstract class AbstractContactModel extends AbstractTableModel {
 		int last = first + newItems.size() -1;
 		list.addAll(newItems);
 		fireTableRowsInserted(first, last);
+		writeFile();
 	}
 	
 	public void add(ContactBean contact){
 		int index = list.size();
 		list.add(contact);
 		fireTableRowsInserted(index, index);
+		writeFile();
 	}
 	
 	protected String getResourseString(String key){
@@ -72,11 +66,57 @@ public abstract class AbstractContactModel extends AbstractTableModel {
 	public int getRowCount() {
 		return list.size();
 	}
+	
+	protected void writeFile(){
+		logger.debug("Writing contact File.");
+		try {
+			this.writeListFile();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
+	}
+	
+	private void writeListFile() throws FileNotFoundException{
+		FileOutputStream os =new FileOutputStream(file);
+	    XMLEncoder encoder=new XMLEncoder(os);
+	    //for (ContactBean contact : list){
+	    //	encoder.writeObject(contact);
+	    //}
+	    logger.info("Writing datat to file: " + file.getAbsolutePath());
+	    encoder.writeObject(list);
+	    encoder.close();
+	}
+	
+	protected void readFile(){
+		logger.debug("Reading contact File.");
+		try {
+			readListFile();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
+	}
+	
+	private List<ContactBean> readListFile() throws FileNotFoundException{
+		FileInputStream is = new FileInputStream(file);
+	    XMLDecoder decoder = new XMLDecoder(is);
+	    List<ContactBean> list = (List<ContactBean>) decoder.readObject(); 
+	    decoder.close();
+	    this.add(list);
+	    return list;
+	}
+	
+	
 
 	@Override
 	public abstract Object getValueAt(int arg0, int arg1);
 
 	public abstract TableColumnModel getColumnModel();
+
+	public abstract void newContact(OrganizationPanel panel);
+
+	public abstract void editContact(OrganizationPanel organizationPanel, ContactBean contactBean);
 
 }
 

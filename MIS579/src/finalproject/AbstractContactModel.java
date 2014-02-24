@@ -19,25 +19,13 @@ public abstract class AbstractContactModel extends AbstractTableModel {
 	
 	public AbstractContactModel(String name) {
 		this.name = name;
-		URL url = AbstractContactModel.class.getResource("pool.jpg");
-		
-		logger.info("File URL: " + url);
-		/*
-		try {
-			file = new File(url.toURI());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-			logger.error(e.toString());
-		}
-		*/
-		/*
 		String fileName = ""
-				+ AbstractContactModel.class.getProtectionDomain().getCodeSource().getLocation().getPath() 
+				//+ AbstractContactModel.class.getProtectionDomain().getCodeSource().getLocation().getPath() 
 				//+ System.getProperty("file.separator") 
 				+ this.name + ".xml";
 		logger.debug("File for " + name + " objects: " + fileName);
 		file = new File(fileName);	
-		*/
+		
 	}
 	
 	public void add(List<ContactBean> newItems){

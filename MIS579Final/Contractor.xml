@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0_13" class="java.beans.XMLDecoder">
+ <object class="java.util.ArrayList">
+  <void method="add">
+   <object class="finalproject.CompanyBean">
+    <void property="city">
+     <string>Looneysburg</string>
+    </void>
+    <void property="companyName">
+     <string>Acme Products</string>
+    </void>
+    <void property="contactPerson">
+     <string>Road Runner</string>
+    </void>
+    <void property="phone">
+     <string></string>
+    </void>
+    <void property="products">
+     <string>Laughs</string>
+    </void>
+    <void property="state">
+     <string>NV</string>
+    </void>
+    <void property="streetAddress">
+     <string>123 Desert Road.</string>
+    </void>
+    <void property="streetAddress2">
+     <string></string>
+    </void>
+    <void property="zip">
+     <string>12345</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="finalproject.CompanyBean">
+    <void property="city">
+     <string>Reno</string>
+    </void>
+    <void property="companyName">
+     <string>Contactor2</string>
+    </void>
+    <void property="contactPerson">
+     <string>Contactor Secretary</string>
+    </void>
+    <void property="phone">
+     <string>99999999</string>
+    </void>
+    <void property="products">
+     <string>Installation Sales Decks</string>
+    </void>
+    <void property="state">
+     <string>NV</string>
+    </void>
+    <void property="streetAddress">
+     <string>12345 Contractor Blvd</string>
+    </void>
+    <void property="streetAddress2">
+     <string></string>
+    </void>
+    <void property="zip">
+     <string>87654</string>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

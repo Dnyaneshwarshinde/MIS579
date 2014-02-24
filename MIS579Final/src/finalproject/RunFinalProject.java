@@ -1,6 +1,9 @@
 package finalproject;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ResourceBundle;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -20,7 +23,9 @@ public class RunFinalProject {
 		MainTabbedPaneFrame frame = new MainTabbedPaneFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		logger.debug("Setting Image Icon");
+		
 		frame.setIconImage(new ImageIcon( RunFinalProject.class.getResource(bundle.getString("window.icon"))).getImage());
+		
 		
 		logger.info("Run Dir: " + RunFinalProject.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 		try{
@@ -29,12 +34,15 @@ public class RunFinalProject {
 			int width = Integer.parseInt(bundle.getString("window.width"));
 			logger.debug("Height: " + height + "\tWidth: " + width);
 			frame.setSize(width, height);
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
 			frame.setVisible(true);
 			
 		} catch (NumberFormatException e){
 			e.printStackTrace();
 			logger.error(e.toString());
 		}
+		
 	}
 
 }

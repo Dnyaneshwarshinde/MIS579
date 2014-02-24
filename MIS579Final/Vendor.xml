@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0_13" class="java.beans.XMLDecoder">
+ <object class="java.util.ArrayList">
+  <void method="add">
+   <object class="finalproject.CompanyBean">
+    <void property="city">
+     <string>Looneysburg</string>
+    </void>
+    <void property="companyName">
+     <string>Acme Products</string>
+    </void>
+    <void property="contactPerson">
+     <string>Wile E. Coyote</string>
+    </void>
+    <void property="phone">
+     <string>555-555-5555</string>
+    </void>
+    <void property="products">
+     <string>Bandages Boulders Arrows</string>
+    </void>
+    <void property="state">
+     <string>NV</string>
+    </void>
+    <void property="streetAddress">
+     <string>123 Desert Road.</string>
+    </void>
+    <void property="streetAddress2">
+     <string></string>
+    </void>
+    <void property="zip">
+     <string>12345</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="finalproject.CompanyBean">
+    <void property="city">
+     <string>Las Vegas</string>
+    </void>
+    <void property="companyName">
+     <string>Vendor2 Ltd.</string>
+    </void>
+    <void property="contactPerson">
+     <string>Vendor Sales Manager</string>
+    </void>
+    <void property="phone">
+     <string>888-888-8888</string>
+    </void>
+    <void property="products">
+     <string>Water, Salt, Chlorine</string>
+    </void>
+    <void property="state">
+     <string>NV</string>
+    </void>
+    <void property="streetAddress">
+     <string>123456 Vendor Rd.</string>
+    </void>
+    <void property="streetAddress2">
+     <string></string>
+    </void>
+    <void property="zip">
+     <string>98776</string>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

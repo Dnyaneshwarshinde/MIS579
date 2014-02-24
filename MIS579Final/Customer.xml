@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0_13" class="java.beans.XMLDecoder">
+ <object class="java.util.ArrayList">
+  <void method="add">
+   <object class="finalproject.CustomerBean">
+    <void property="city">
+     <string>OakCity</string>
+    </void>
+    <void property="firstName">
+     <string>Matt</string>
+    </void>
+    <void property="lastName">
+     <string>Wolff</string>
+    </void>
+    <void property="phone">
+     <string>123444444</string>
+    </void>
+    <void property="state">
+     <string>IL</string>
+    </void>
+    <void property="streetAddress">
+     <string>1234 MadeUpAddress Rd.</string>
+    </void>
+    <void property="streetAddress2">
+     <string></string>
+    </void>
+    <void property="zip">
+     <string>12345</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="finalproject.CustomerBean">
+    <void property="city">
+     <string>Miami</string>
+    </void>
+    <void property="firstName">
+     <string>Don</string>
+    </void>
+    <void property="lastName">
+     <string>Johnson</string>
+    </void>
+    <void property="phone">
+     <string>83773464654</string>
+    </void>
+    <void property="state">
+     <string>FL</string>
+    </void>
+    <void property="streetAddress">
+     <string>1234 SouthBeach Ave.</string>
+    </void>
+    <void property="streetAddress2">
+     <string></string>
+    </void>
+    <void property="zip">
+     <string>32245</string>
+    </void>
+   </object>
+  </void>
+  <void method="add">
+   <object class="finalproject.CustomerBean">
+    <void property="city">
+     <string>Smirna</string>
+    </void>
+    <void property="firstName">
+     <string>John</string>
+    </void>
+    <void property="lastName">
+     <string>Wayne</string>
+    </void>
+    <void property="phone">
+     <string>6153456223</string>
+    </void>
+    <void property="state">
+     <string>TN</string>
+    </void>
+    <void property="streetAddress">
+     <string>P.O. Box 12345</string>
+    </void>
+    <void property="streetAddress2">
+     <string></string>
+    </void>
+    <void property="zip">
+     <string>37013</string>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>
